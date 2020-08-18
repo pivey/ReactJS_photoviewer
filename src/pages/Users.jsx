@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import PulseLoader from 'react-spinners/PulseLoader';
 import UserCard from '../components/UserCard';
 import PageHeader from '../components/PageHeader';
+import SectionTitle from '../components/SectionTitle';
 import useBontouchContext from '../Hooks/useAppContext';
 
 const LoaderContainer = styled.div`
@@ -21,18 +22,23 @@ const Grid = styled.div`
 `;
 
 const Users = () => {
-  const { userCards, username, setUserCards, setSelectedUser } = useBontouchContext();
+  const {
+    userCards,
+    username,
+    setUserCards,
+    setSelectedUser,
+    saveToLocalStorage,
+    saveToSessionStorage,
+  } = useBontouchContext();
   const refArray = userCards.map(() => React.createRef());
   const [favouriteUserCards, setFavouriteUserCards] = useState(
     JSON.parse(localStorage.getItem('favouritedCards')) || []
   );
-  const saveToSessionStorage = (storeId, data) => sessionStorage.setItem(storeId, JSON.stringify(data));
-  const saveToLocalStorage = (storeId, data) => localStorage.setItem(storeId, JSON.stringify(data));
 
   useEffect(() => {
     saveToLocalStorage('favouritedCards', favouriteUserCards);
     saveToSessionStorage('allUsers', userCards);
-  }, [favouriteUserCards, userCards]);
+  }, [favouriteUserCards, saveToLocalStorage, saveToSessionStorage, userCards]);
 
   const clickHandler = e => {
     e.stopPropagation();
@@ -54,6 +60,7 @@ const Users = () => {
 
   const cardClickHandler = e => {
     e.stopPropagation();
+    if (e.currentTarget.className === 'start') return;
     const selectedCard = Number(e.currentTarget.id);
     const allUsers = [...userCards, ...favouriteUserCards];
     const foundCard = allUsers.find(user => user.id === selectedCard);
@@ -62,16 +69,14 @@ const Users = () => {
 
   return (
     <>
-      <PageHeader heading="Users" />
+      <PageHeader>Users</PageHeader>
       {!userCards ? (
         <LoaderContainer>
           <PulseLoader />
         </LoaderContainer>
       ) : (
         <>
-          <div className="h-20 border-b-2 border-gray-400">
-            <h2 className="text-3xl h-full flex items-end">Favourites</h2>
-          </div>
+          <SectionTitle title="Favourites" />
           <Grid className="min-h-full flex flex-wrap mt-6 mb-8">
             {favouriteUserCards.length > 0 &&
               favouriteUserCards.map(({ email, favourite, id, name }) => (
@@ -87,9 +92,7 @@ const Users = () => {
                 />
               ))}
           </Grid>
-          <div className="h-20 border-b-2 border-gray-400">
-            <h2 className="text-3xl h-full flex items-end">Users</h2>
-          </div>
+          <SectionTitle title="Users" />
           <Grid className="min-h-full flex flex-wrap mt-6 mb-8">
             {userCards.length > 0 &&
               userCards.map(({ email, id, name }, index) => (

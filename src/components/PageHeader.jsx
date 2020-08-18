@@ -1,20 +1,18 @@
-import React from 'react'
-import PropTypes from 'prop-types'
+import React from 'react';
+import PropTypes from 'prop-types';
 
-const PageHeader = ({ heading }) => {
-  return (
-    <div className="bg-gray-300 h-16 rounded-lg align-middle p-2 pl-8">
-      <p className="text-2xl h-full flex items-center">{heading}</p>
-    </div>
-  )
-}
+const PageHeader = ({ children }) => (
+  <div className="bg-gray-300 h-16 rounded-lg align-middle p-2 pl-8">
+    <p className="text-2xl h-full flex items-center">{children}</p>
+  </div>
+);
 
 PageHeader.propTypes = {
-  heading: PropTypes.string,
-}
+  children: PropTypes.node,
+};
 
 PageHeader.defaultProps = {
-  heading: '',
-}
+  children: null,
+};
 
-export default PageHeader
+export default PageHeader;

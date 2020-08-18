@@ -22,7 +22,7 @@ const StyledContainer = styled(Link)`
 const UserCard = React.forwardRef(
   ({ cardClickHandler, clickHandler, email, favourite, name, userId, username }, ref) => (
     <StyledContainer
-      to={`/user/${username}`}
+      to={username ? `/user/${username}` : '#'}
       className="hover:bg-gray-600 bg-blue-300 p-8 pl-6 rounded-lg"
       ref={ref}
       onClick={e => cardClickHandler(e)}

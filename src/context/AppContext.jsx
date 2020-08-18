@@ -6,7 +6,7 @@ const BontouchContext = React.createContext();
 
 const BontouchContextProvider = ({ children }) => {
   const [userCards, setUserCards] = useState(JSON.parse(sessionStorage.getItem('allUsers')) || []);
-  const [selectedUser, setSelectedUser] = useState(null);
+  const [selectedUser, setSelectedUser] = useState(JSON.parse(localStorage.getItem('userInformation')) || {});
 
   useEffect(() => {
     if (JSON.parse(sessionStorage.getItem('allUsers')).length === 0) {
@@ -25,6 +25,9 @@ const BontouchContextProvider = ({ children }) => {
   userCards.map(card => (card.name = nameSplitter(card.name)));
   const username = selectedUser?.name;
 
+  const saveToLocalStorage = (storeId, data) => localStorage.setItem(storeId, JSON.stringify(data));
+  const saveToSessionStorage = (storeId, data) => sessionStorage.setItem(storeId, JSON.stringify(data));
+
   const values = {
     username,
     selectedUser,
@@ -32,6 +35,8 @@ const BontouchContextProvider = ({ children }) => {
   };
 
   const methods = {
+    saveToLocalStorage,
+    saveToSessionStorage,
     setSelectedUser,
     setUserCards,
   };
