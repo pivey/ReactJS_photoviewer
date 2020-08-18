@@ -1,0 +1,6 @@
+{
+    "files.trimTrailingWhitespace": true,
+    "files.trimFinalNewlines": true,
+    "prettier.requireConfig": true,
+    "prettier.htmlWhitespaceSensitivity": "ignore"
+}
