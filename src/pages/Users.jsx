@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import PulseLoader from 'react-spinners/PulseLoader';
 import UserCard from '../components/UserCard';
-import fetchUsers from '../utils/fetchUsers';
 import PageHeader from '../components/PageHeader';
 import useBontouchContext from '../Hooks/useAppContext';
 
@@ -22,7 +21,7 @@ const Grid = styled.div`
 `;
 
 const Users = () => {
-  const { userCards, setUserCards } = useBontouchContext();
+  const { userCards, username, setUserCards, setSelectedUser } = useBontouchContext();
   const refArray = userCards.map(() => React.createRef());
   const [favouriteUserCards, setFavouriteUserCards] = useState(
     JSON.parse(localStorage.getItem('favouritedCards')) || []
@@ -36,6 +35,7 @@ const Users = () => {
   }, [favouriteUserCards, userCards]);
 
   const clickHandler = e => {
+    e.stopPropagation();
     const selectedCard = Number(e.currentTarget.id);
     const foundFavourite = favouriteUserCards.findIndex(card => card.id === selectedCard);
     if (foundFavourite !== -1) {
@@ -52,10 +52,12 @@ const Users = () => {
     }
   };
 
-  const nameSplitter = name => {
-    const split = name.split(' ');
-    if (split.length === 3) return split[1];
-    return split[0];
+  const cardClickHandler = e => {
+    e.stopPropagation();
+    const selectedCard = Number(e.currentTarget.id);
+    const allUsers = [...userCards, ...favouriteUserCards];
+    const foundCard = allUsers.find(user => user.id === selectedCard);
+    setSelectedUser(foundCard);
   };
 
   return (
@@ -74,12 +76,14 @@ const Users = () => {
             {favouriteUserCards.length > 0 &&
               favouriteUserCards.map(({ email, favourite, id, name }) => (
                 <UserCard
+                  username={username}
+                  cardClickHandler={cardClickHandler}
+                  clickHandler={clickHandler}
                   email={email}
-                  name={nameSplitter(name)}
+                  favourite={favourite}
+                  name={name}
                   key={id}
                   userId={id}
-                  clickHandler={clickHandler}
-                  favourite={favourite}
                 />
               ))}
           </Grid>
@@ -90,12 +94,14 @@ const Users = () => {
             {userCards.length > 0 &&
               userCards.map(({ email, id, name }, index) => (
                 <UserCard
+                  username={username}
+                  cardClickHandler={cardClickHandler}
+                  clickHandler={clickHandler}
                   email={email}
                   key={id}
                   userId={id}
-                  name={nameSplitter(name)}
+                  name={name}
                   ref={refArray[index]}
-                  clickHandler={clickHandler}
                 />
               ))}
           </Grid>
