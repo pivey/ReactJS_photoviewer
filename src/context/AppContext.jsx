@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import fetchUsers from '../utils/fetchUsers';
-import fetchAlbums from '../utils/fetchAlbums';
-import fetchPhotos from '../utils/fetchPhotos';
+import fetchData from '../utils/fetchData';
+import pathnames from '../constants';
+
+const { albumPath, photoPath, userPath } = pathnames;
 
 const BontouchContext = React.createContext();
 
@@ -16,17 +17,17 @@ const BontouchContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (checkSessionStorage('allUsers')) {
-      fetchUsers().then(res => {
+      fetchData(userPath).then(res => {
         setUserCards(res.data);
       });
     }
     if (checkSessionStorage('allAlbums')) {
-      fetchAlbums().then(res => {
+      fetchData(albumPath).then(res => {
         setUserAlbums(res.data);
       });
     }
     if (checkSessionStorage('AllPhotos')) {
-      fetchPhotos().then(res => {
+      fetchData(photoPath).then(res => {
         setUserPhotos(res.data);
       });
     }

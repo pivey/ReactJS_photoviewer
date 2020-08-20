@@ -1,5 +1,6 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import * as React from 'react';
+import PropTypes from 'prop-types';
 import { Router } from '@reach/router';
 import Users from '../pages/Users';
 import User from '../pages/User';
@@ -21,6 +22,14 @@ const Routing = () => {
       ))}
     </Router>
   );
+};
+
+Route.propTypes = {
+  component: PropTypes.node,
+};
+
+Route.defaultProps = {
+  component: null,
 };
 
 export default Routing;

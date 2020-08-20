@@ -18,11 +18,10 @@ const StyledContainer = styled(Link)`
   }
 `;
 
-const UserCard = React.forwardRef(({ cardClickHandler, clickHandler, email, favourite, name, userId }, ref) => (
+const UserCard = ({ cardClickHandler, clickHandler, email, favourite, name, userId }) => (
   <StyledContainer
     to="/user"
     className="hover:bg-gray-600 bg-blue-300 p-8 pl-6 rounded-lg"
-    // ref={ref}
     onClick={e => cardClickHandler(e)}
     favourite={favourite}
     id={userId}
@@ -40,7 +39,7 @@ const UserCard = React.forwardRef(({ cardClickHandler, clickHandler, email, favo
       <p className="text-l">{email}</p>
     </div>
   </StyledContainer>
-));
+);
 
 UserCard.propTypes = {
   cardClickHandler: PropTypes.func,
