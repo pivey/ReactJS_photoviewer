@@ -10,33 +10,39 @@ const Hyphen = styled.div`
   margin-right: 1rem;
 `;
 
-const UserHero = ({ name, email, address }) => (
-  <section className="w-full flex flex-col items-center content-center">
-    <div className="w-full h-full text-center font-bold text-6xl p-20 pt-32 pb-6">
-      <h1>{name || 'Dennis Haroldson'}</h1>
-    </div>
-    <div className="w-full h-full">
-      <ul className="list-none flex flex-row justify-center items-center content-center mx-auto">
-        <li className="flex items-center align-center text-2xl italic">Bontouch AB</li>
-        <Hyphen />
-        <li className="flex items-center align-center text-2xl italic">{email || 'Dennis@gmailtogogo.com'}</li>
-        <Hyphen />
-        <li className="flex items-center align-center text-2xl italic">{address || '34 fryrskeppsvägen alle'}</li>
-      </ul>
+const UserHero = ({ name, email, address, albumPage, photoCount }) => (
+  <section className="w-full flex flex-col items-center content-center my-32">
+    <div className="w-full h-full text-center text-6xl px-20">
+      <h1 className="font-bold">{name}</h1>
+      {albumPage ? (
+        <p className="text-2xl italic text-center mt-8">{photoCount}</p>
+      ) : (
+        <ul className="list-none flex flex-row justify-center items-center content-center mx-auto mt-8">
+          <li className="flex items-center align-center text-xl italic">Bontouch AB</li>
+          <Hyphen />
+          <li className="flex items-center align-center text-xl italic">{email}</li>
+          <Hyphen />
+          <li className="flex items-center align-center text-xl italic">{address}</li>
+        </ul>
+      )}
     </div>
   </section>
 );
 
 UserHero.propTypes = {
+  albumPage: PropTypes.bool,
   address: PropTypes.string,
   email: PropTypes.string,
   name: PropTypes.string,
+  photoCount: PropTypes.string,
 };
 
 UserHero.degaultProps = {
+  albumPage: false,
   address: '',
   email: '',
   name: '',
+  photoCount: '',
 };
 
 export default UserHero;

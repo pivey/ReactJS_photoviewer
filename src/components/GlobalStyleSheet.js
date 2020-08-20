@@ -20,6 +20,7 @@ html, body {
   margin: auto;
   overflow: auto;
   padding: 3rem;
+  min-height: 100vh
 }
 `;
 

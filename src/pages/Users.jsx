@@ -4,6 +4,7 @@ import PulseLoader from 'react-spinners/PulseLoader';
 import UserCard from '../components/UserCard';
 import PageHeader from '../components/PageHeader';
 import SectionTitle from '../components/SectionTitle';
+import CardGrid from '../components/CardGrid';
 import useBontouchContext from '../Hooks/useAppContext';
 
 const LoaderContainer = styled.div`
@@ -15,21 +16,8 @@ const LoaderContainer = styled.div`
   margin-top: 20rem;
 `;
 
-const Grid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, 250px);
-  grid-gap: 10px;
-`;
-
 const Users = () => {
-  const {
-    userCards,
-    username,
-    setUserCards,
-    setSelectedUser,
-    saveToLocalStorage,
-    saveToSessionStorage,
-  } = useBontouchContext();
+  const { userCards, setUserCards, setSelectedUser, saveToLocalStorage, saveToSessionStorage } = useBontouchContext();
   const refArray = userCards.map(() => React.createRef());
   const [favouriteUserCards, setFavouriteUserCards] = useState(
     JSON.parse(localStorage.getItem('favouritedCards')) || []
@@ -60,7 +48,6 @@ const Users = () => {
 
   const cardClickHandler = e => {
     e.stopPropagation();
-    if (e.currentTarget.className === 'start') return;
     const selectedCard = Number(e.currentTarget.id);
     const allUsers = [...userCards, ...favouriteUserCards];
     const foundCard = allUsers.find(user => user.id === selectedCard);
@@ -76,38 +63,38 @@ const Users = () => {
         </LoaderContainer>
       ) : (
         <>
-          <SectionTitle title="Favourites" />
-          <Grid className="min-h-full flex flex-wrap mt-6 mb-8">
+          <SectionTitle border title="Favourites" />
+          <CardGrid className="min-h-full flex flex-wrap mt-6 mb-8">
             {favouriteUserCards.length > 0 &&
               favouriteUserCards.map(({ email, favourite, id, name }) => (
                 <UserCard
-                  username={username}
                   cardClickHandler={cardClickHandler}
                   clickHandler={clickHandler}
                   email={email}
                   favourite={favourite}
                   name={name}
                   key={id}
+                  username={name}
                   userId={id}
                 />
               ))}
-          </Grid>
-          <SectionTitle title="Users" />
-          <Grid className="min-h-full flex flex-wrap mt-6 mb-8">
+          </CardGrid>
+          <SectionTitle border title="Users" />
+          <CardGrid className="min-h-full flex flex-wrap mt-6 mb-8">
             {userCards.length > 0 &&
               userCards.map(({ email, id, name }, index) => (
                 <UserCard
-                  username={username}
                   cardClickHandler={cardClickHandler}
                   clickHandler={clickHandler}
                   email={email}
                   key={id}
-                  userId={id}
                   name={name}
+                  username={name}
                   ref={refArray[index]}
+                  userId={id}
                 />
               ))}
-          </Grid>
+          </CardGrid>
         </>
       )}
     </>
