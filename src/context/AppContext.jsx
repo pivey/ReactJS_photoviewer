@@ -17,19 +17,25 @@ const BontouchContextProvider = ({ children }) => {
 
   useEffect(() => {
     if (checkSessionStorage('allUsers')) {
-      fetchData(userPath).then(res => {
-        setUserCards(res.data);
-      });
+      fetchData(userPath)
+        .then(res => {
+          setUserCards(res.data);
+        })
+        .catch(err => console.log(err));
     }
     if (checkSessionStorage('allAlbums')) {
-      fetchData(albumPath).then(res => {
-        setUserAlbums(res.data);
-      });
+      fetchData(albumPath)
+        .then(res => {
+          setUserAlbums(res.data);
+        })
+        .catch(err => console.log(err));
     }
     if (checkSessionStorage('AllPhotos')) {
-      fetchData(photoPath).then(res => {
-        setUserPhotos(res.data);
-      });
+      fetchData(photoPath)
+        .then(res => {
+          setUserPhotos(res.data);
+        })
+        .catch(err => console.log(err));
     }
   }, []);
 
