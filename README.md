@@ -3,14 +3,14 @@
 A codetest for the bontouch group. user profiles can be viewed, along with their photo albums and the photos contained within those albums. 
 
 ### Technologies
-ReactJS
-Styled-components
-TailwindCSS
-Context API
-Axios
-PropTypes
-Reach router
-JSON placeholder data
-local + session storage
+1. ReactJS
+2. Styled-components
+3. TailwindCSS
+4. Context API
+5. Axios
+6. PropTypes
+7. Reach router
+8. JSON placeholder data
+9. local + session storage
 
 
